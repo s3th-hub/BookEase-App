@@ -1,0 +1,972 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a7a4a;--green-lt:#e8f5ee;--green-md:#2d9e62;--green-dk:#0f4f2e;
+  --ink:#1a1a22;--ink2:#4a4a5a;--ink3:#8a8a9a;--ink4:#c8c8d8;--ink5:#f0f0f5;
+  --white:#fff;--red:#d63a3a;--amber:#c47a0a;--blue:#1a5fa8;
+  --r:10px;--r2:14px;--trans:all .18s ease;
+}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--ink5);color:var(--ink);min-height:100vh}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+input,select,textarea{font-family:inherit;outline:none}
+
+/* NAV */
+#nav{background:var(--white);border-bottom:1px solid var(--ink4);position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:54px}
+.nav-logo{display:flex;align-items:center;gap:8px;cursor:pointer}
+.nav-logo-icon{width:30px;height:30px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.nav-logo-text{font-weight:700;font-size:17px;color:var(--ink)}
+.nav-logo-text span{color:var(--green)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-link{padding:6px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink2);transition:var(--trans)}
+.nav-link:hover,.nav-link.active{background:var(--green-lt);color:var(--green)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.btn{padding:7px 16px;border-radius:8px;font-size:13px;font-weight:500;transition:var(--trans);display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green-dk)}
+.btn-outline{border:1.5px solid var(--ink4);color:var(--ink2)}.btn-outline:hover{border-color:var(--green);color:var(--green)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-danger{background:#fef0f0;color:var(--red);border:1px solid #fcc}.btn-danger:hover{background:#fcc}
+.btn-ghost{color:var(--ink3)}.btn-ghost:hover{color:var(--ink);background:var(--ink5)}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--green-lt);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+
+/* PAGES */
+.page{display:none;animation:fadeUp .3s ease both}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0a2419 0%,#0f4f2e 50%,#1a7a4a 100%);color:#fff;padding:60px 20px;text-align:center}
+.hero h1{font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.1;margin-bottom:14px}
+.hero h1 span{color:#6ee8a8}
+.hero p{font-size:16px;color:#9fe8c0;max-width:500px;margin:0 auto 28px}
+.hero-btns{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.hero-btn-primary{background:#fff;color:var(--green-dk);padding:11px 24px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:var(--trans)}
+.hero-btn-primary:hover{background:#e8f5ee}
+.hero-btn-outline{border:2px solid rgba(255,255,255,.4);color:#fff;padding:11px 24px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;transition:var(--trans)}
+.hero-btn-outline:hover{background:rgba(255,255,255,.1)}
+.stats-bar{background:var(--white);display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--ink4)}
+.stat-item{padding:16px;text-align:center;border-right:1px solid var(--ink4)}
+.stat-item:last-child{border-right:none}
+.stat-val{font-size:22px;font-weight:800;color:var(--green)}
+.stat-lbl{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* SECTION */
+.section{max-width:1100px;margin:0 auto;padding:32px 20px}
+.section-title{font-size:22px;font-weight:700;margin-bottom:6px}
+.section-sub{color:var(--ink3);font-size:14px;margin-bottom:24px}
+
+/* FILTERS */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.filter-chip{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1.5px solid var(--ink4);color:var(--ink2);cursor:pointer;transition:var(--trans)}
+.filter-chip:hover,.filter-chip.active{background:var(--green);border-color:var(--green);color:#fff}
+
+/* SERVICE CARDS */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.svc-card{background:var(--white);border-radius:var(--r2);border:1px solid var(--ink4);overflow:hidden;cursor:pointer;transition:var(--trans)}
+.svc-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.svc-img{height:140px;overflow:hidden;position:relative;background:#ddd}
+.svc-img img{width:100%;height:100%;object-fit:cover}
+.svc-img-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;background:var(--green-lt)}
+.svc-cat{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;color:var(--ink2)}
+.svc-body{padding:14px}
+.svc-name{font-size:15px;font-weight:700;margin-bottom:4px}
+.svc-desc{font-size:12px;color:var(--ink3);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.svc-meta{display:flex;align-items:center;justify-content:space-between}
+.svc-rating{display:flex;align-items:center;gap:3px;font-size:12px;color:var(--amber)}
+.svc-price{font-size:14px;font-weight:700;color:var(--green)}
+.svc-duration{font-size:11px;color:var(--ink3)}
+
+/* CARD */
+.card{background:var(--white);border-radius:var(--r2);border:1px solid var(--ink4);padding:20px}
+
+/* FORM */
+.form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.form-label{font-size:12px;font-weight:600;color:var(--ink2)}
+.form-input{padding:8px 12px;border:1.5px solid var(--ink4);border-radius:8px;font-size:13px;color:var(--ink);transition:var(--trans)}
+.form-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(26,122,74,.1)}
+.form-error{font-size:11px;color:var(--red)}
+select.form-input{cursor:pointer}
+textarea.form-input{resize:vertical;min-height:70px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-pending{background:#fff8e6;color:#a06000}
+.badge-confirmed{background:var(--green-lt);color:var(--green-dk)}
+.badge-completed{background:#e6f0ff;color:var(--blue)}
+.badge-cancelled{background:#fef0f0;color:var(--red)}
+
+/* CALENDAR */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-nav{width:30px;height:30px;border-radius:8px;border:1px solid var(--ink4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--ink2);transition:var(--trans)}
+.cal-nav:hover{border-color:var(--green);color:var(--green)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-dow{text-align:center;font-size:10px;font-weight:600;color:var(--ink3);padding:4px 0}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:12px;font-weight:500;cursor:pointer;transition:var(--trans);color:var(--ink2)}
+.cal-day:hover:not(.cal-empty):not(.cal-past){background:var(--green-lt);color:var(--green)}
+.cal-day.cal-today{font-weight:800;color:var(--green)}
+.cal-day.cal-selected{background:var(--green);color:#fff}
+.cal-day.cal-past{color:var(--ink4);cursor:not-allowed}
+.cal-day.cal-empty{cursor:default}
+
+/* SLOTS */
+.slots-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.slot{padding:5px 11px;border-radius:7px;font-size:12px;font-weight:500;border:1.5px solid var(--ink4);color:var(--ink2);cursor:pointer;transition:var(--trans)}
+.slot:hover:not(.slot-taken){border-color:var(--green);color:var(--green);background:var(--green-lt)}
+.slot.slot-selected{background:var(--green);border-color:var(--green);color:#fff}
+.slot.slot-taken{text-decoration:line-through;opacity:.4;cursor:not-allowed}
+
+/* STEPS */
+.steps{display:flex;align-items:center;gap:4px;margin-bottom:24px}
+.step-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500}
+.step-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:var(--trans)}
+.step-circle.done{background:var(--green);color:#fff}
+.step-circle.active{border:2px solid var(--green);color:var(--green)}
+.step-circle.pending{border:2px solid var(--ink4);color:var(--ink3)}
+.step-label{color:var(--ink2)}
+.step-line{flex:1;height:2px;background:var(--ink4);border-radius:1px}
+.step-line.done{background:var(--green)}
+
+/* TABS */
+.tabs{display:flex;background:var(--ink5);border-radius:10px;padding:3px;width:fit-content;margin-bottom:20px}
+.tab{padding:6px 18px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink3);cursor:pointer;transition:var(--trans)}
+.tab.active{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+/* BOOKING CARD */
+.bk-card{background:var(--white);border-radius:var(--r2);border:1px solid var(--ink4);padding:16px;margin-bottom:10px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.bk-title{font-size:15px;font-weight:700;margin-bottom:3px}
+.bk-meta{font-size:12px;color:var(--ink3);display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+
+/* ADMIN SIDEBAR */
+#admin-layout{display:flex;min-height:calc(100vh - 54px)}
+.sidebar{width:220px;background:var(--white);border-right:1px solid var(--ink4);padding:12px;flex-shrink:0}
+.sidebar-link{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;transition:var(--trans);width:100%}
+.sidebar-link:hover{background:var(--ink5);color:var(--ink)}
+.sidebar-link.active{background:var(--green);color:#fff}
+.admin-main{flex:1;padding:24px;overflow-auto}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border-radius:var(--r2);border:1px solid var(--ink4);background:var(--white)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 14px;background:var(--ink5);color:var(--ink3);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--ink4)}
+td{padding:11px 14px;border-bottom:1px solid var(--ink5);color:var(--ink)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--ink5)}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeUp .2s ease}
+.modal{background:var(--white);border-radius:var(--r2);width:100%;max-width:480px;max-height:85vh;overflow-y:auto}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--ink4)}
+.modal-title{font-size:16px;font-weight:700}
+.modal-body{padding:20px}
+
+/* TOAST */
+#toast-container{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:300}
+.toast{background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:500;min-width:220px;box-shadow:0 4px 16px rgba(0,0,0,.2);animation:toastIn .3s cubic-bezier(.22,.68,0,1.2) both;display:flex;align-items:center;gap:8px}
+.toast.success{background:var(--green)}
+.toast.error{background:var(--red)}
+.toast.info{background:var(--blue)}
+@keyframes toastIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+
+/* CONFIRM PAGE */
+.confirm-icon{width:70px;height:70px;background:var(--green-lt);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px}
+
+/* ANALYTICS BARS */
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bar-label{width:130px;font-size:12px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;height:8px;background:var(--ink5);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;background:var(--green-md);border-radius:4px;transition:width .4s ease}
+.bar-count{width:28px;font-size:12px;color:var(--ink3);text-align:right}
+
+/* GRID LAYOUTS */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--white);border-radius:var(--r2);border:1px solid var(--ink4);padding:16px}
+.stat-card-val{font-size:28px;font-weight:800;color:var(--ink);margin:6px 0 2px}
+.stat-card-lbl{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.05em}
+.payment-opt{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;border:2px solid var(--ink4);cursor:pointer;transition:var(--trans);margin-bottom:8px}
+.payment-opt.selected{border-color:var(--green);background:var(--green-lt)}
+.payment-opt-icon{font-size:22px}
+.payment-opt-name{font-size:13px;font-weight:600}
+.payment-opt-desc{font-size:11px;color:var(--ink3)}
+.check-circle{width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:auto}
+
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink3)}
+.empty-icon{font-size:40px;margin-bottom:10px}
+.empty-text{font-size:14px;font-weight:500;margin-bottom:4px;color:var(--ink2)}
+
+.service-detail-hero{background:var(--green-lt);border-radius:var(--r2);padding:24px;margin-bottom:20px;display:flex;gap:20px;flex-wrap:wrap}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.meta-item{background:var(--ink5);border-radius:9px;padding:10px 14px}
+.meta-item-lbl{font-size:11px;color:var(--ink3);margin-bottom:2px}
+.meta-item-val{font-size:14px;font-weight:700;color:var(--ink)}
+
+@media(max-width:600px){
+  .nav-links{display:none}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .stat-item:nth-child(2){border-right:none}
+  .sidebar{display:none}
+  .admin-main{padding:14px}
+}
+</style>
+
+<div id="toast-container"></div>
+
+<div id="nav">
+  <div class="nav-logo" onclick="nav('home')">
+    <div class="nav-logo-icon">📅</div>
+    <span class="nav-logo-text">Book<span>Ease</span></span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" id="nl-home" onclick="nav('home')">Home</button>
+    <button class="nav-link" id="nl-services" onclick="nav('services')">Services</button>
+    <button class="nav-link" id="nl-dashboard" onclick="nav('dashboard')" style="display:none">Dashboard</button>
+    <button class="nav-link" id="nl-admin" onclick="nav('admin')" style="display:none">Admin</button>
+  </div>
+  <div class="nav-right" id="nav-right"></div>
+</div>
+
+<div id="page-home" class="page active">
+  <div class="hero">
+    <h1>Book Any Service,<br><span>Anytime.</span></h1>
+    <p>Healthcare, beauty, fitness, legal — schedule in seconds with real-time availability.</p>
+    <div class="hero-btns">
+      <button class="hero-btn-primary" onclick="nav('services')">Explore Services →</button>
+      <button class="hero-btn-outline" onclick="nav('register')">Get Started Free</button>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-val">10K+</div><div class="stat-lbl">Customers</div></div>
+    <div class="stat-item"><div class="stat-val">50+</div><div class="stat-lbl">Services</div></div>
+    <div class="stat-item"><div class="stat-val">4.8★</div><div class="stat-lbl">Rating</div></div>
+    <div class="stat-item"><div class="stat-val">99%</div><div class="stat-lbl">Satisfaction</div></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Popular Services</h2>
+    <p class="section-sub">Choose from our curated catalog of professional services</p>
+    <div id="home-services-grid" class="services-grid"></div>
+  </div>
+  <div style="background:var(--ink);color:#fff;padding:48px 20px;text-align:center">
+    <div style="max-width:500px;margin:0 auto">
+      <h2 style="font-size:26px;font-weight:800;margin-bottom:10px">Ready to get started?</h2>
+      <p style="color:#9ca3af;margin-bottom:24px">Create your free account and book your first appointment in minutes.</p>
+      <button class="btn btn-primary" style="font-size:14px;padding:11px 28px" onclick="nav('register')">Create Free Account</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-services" class="page">
+  <div class="section">
+    <h2 class="section-title">All Services</h2>
+    <p class="section-sub">Browse and book from our full catalog</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+      <div style="position:relative;flex:1;min-width:200px">
+        <input class="form-input" id="svc-search" placeholder="Search services..." style="padding-left:32px;width:100%" oninput="renderServicesPage()">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:14px">🔍</span>
+      </div>
+    </div>
+    <div id="svc-filters" class="filter-bar"></div>
+    <div id="services-grid" class="services-grid"></div>
+  </div>
+</div>
+
+<div id="page-service-detail" class="page">
+  <div class="section" style="max-width:800px">
+    <button class="btn btn-ghost btn-sm" onclick="nav('services')" style="margin-bottom:16px">← Back to Services</button>
+    <div id="svc-detail-content"></div>
+  </div>
+</div>
+
+<div id="page-book" class="page">
+  <div class="section" style="max-width:600px">
+    <button class="btn btn-ghost btn-sm" onclick="nav('service-detail')" style="margin-bottom:16px">← Back</button>
+    <div class="steps" id="book-steps"></div>
+    <div id="book-content"></div>
+  </div>
+</div>
+
+<div id="page-confirm" class="page">
+  <div class="section" style="max-width:480px;text-align:center">
+    <div class="confirm-icon">✅</div>
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:8px">Booking Confirmed!</h2>
+    <p style="color:var(--ink3);margin-bottom:24px;font-size:14px">Your appointment is scheduled. A confirmation has been sent to your email.</p>
+    <div id="confirm-details" class="card" style="text-align:left;margin-bottom:20px"></div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-outline btn-sm" onclick="nav('services')">Book Another</button>
+      <button class="btn btn-primary btn-sm" onclick="nav('dashboard')">View Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-dashboard" class="page">
+  <div class="section" style="max-width:800px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <div><h2 class="section-title" id="dash-greeting">My Dashboard</h2><p style="color:var(--ink3);font-size:13px">Manage your appointments</p></div>
+      <button class="btn btn-primary btn-sm" onclick="nav('services')">+ New Booking</button>
+    </div>
+    <div class="grid4" id="dash-stats"></div>
+    <div class="tabs">
+      <div class="tab active" id="tab-upcoming" onclick="setDashTab('upcoming')">Upcoming</div>
+      <div class="tab" id="tab-past" onclick="setDashTab('past')">Past</div>
+    </div>
+    <div id="dash-bookings"></div>
+  </div>
+</div>
+
+<div id="page-admin" class="page" style="padding:0">
+  <div id="admin-layout">
+    <div class="sidebar">
+      <div style="margin-bottom:8px">
+        <button class="sidebar-link active" id="sl-dashboard" onclick="setAdminPage('dashboard')">📊 Dashboard</button>
+        <button class="sidebar-link" id="sl-bookings" onclick="setAdminPage('bookings')">📅 Bookings</button>
+        <button class="sidebar-link" id="sl-services" onclick="setAdminPage('services')">📦 Services</button>
+        <button class="sidebar-link" id="sl-users" onclick="setAdminPage('users')">👥 Users</button>
+        <button class="sidebar-link" id="sl-analytics" onclick="setAdminPage('analytics')">📈 Analytics</button>
+      </div>
+      <div style="border-top:1px solid var(--ink4);padding-top:8px;margin-top:8px">
+        <button class="sidebar-link" style="color:#e05" onclick="doLogout()">🚪 Logout</button>
+      </div>
+    </div>
+    <div class="admin-main" id="admin-main"></div>
+  </div>
+</div>
+
+<div id="page-login" class="page">
+  <div style="max-width:900px;margin:0 auto;min-height:calc(100vh - 54px);display:flex">
+    <div style="flex:1;background:linear-gradient(135deg,#0a2419,#1a7a4a);display:flex;align-items:center;justify-content:center;padding:40px;border-radius:0">
+      <div style="color:#fff;max-width:300px">
+        <div style="font-size:40px;margin-bottom:16px">📅</div>
+        <h2 style="font-size:28px;font-weight:800;margin-bottom:10px">Book smarter,<br>not harder.</h2>
+        <p style="color:#9fe8c0;font-size:14px;line-height:1.6">The modern booking platform for Nairobi's best service providers.</p>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9fe8c0">✓ Real-time availability</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9fe8c0">✓ Instant confirmations</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9fe8c0">✓ M-Pesa payments</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:40px;background:var(--white)">
+      <div style="width:100%;max-width:320px">
+        <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Welcome back</h2>
+        <p style="color:var(--ink3);font-size:13px;margin-bottom:24px">Sign in to your BookEase account</p>
+        <div id="login-error" style="display:none;background:#fef0f0;border:1px solid #fcc;border-radius:8px;padding:9px 12px;font-size:12px;color:var(--red);margin-bottom:12px"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="l-email" type="email" placeholder="you@email.com"></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="l-pwd" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px" onclick="doLogin()">Sign In</button>
+        <div style="background:var(--ink5);border-radius:9px;padding:12px;margin-top:14px;font-size:12px">
+          <div style="font-weight:600;color:var(--ink2);margin-bottom:8px">Demo accounts:</div>
+          <div style="margin-bottom:6px;color:var(--ink3)">Admin: <button style="color:var(--green);font-weight:600;cursor:pointer;font-size:12px" onclick="fillLogin('admin@bookease.com','admin123')">admin@bookease.com / admin123</button></div>
+          <div style="color:var(--ink3)">User: <button style="color:var(--green);font-weight:600;cursor:pointer;font-size:12px" onclick="fillLogin('alice@email.com','alice123')">alice@email.com / alice123</button></div>
+        </div>
+        <p style="text-align:center;font-size:12px;color:var(--ink3);margin-top:14px">No account? <button onclick="nav('register')" style="color:var(--green);font-weight:600;font-size:12px">Sign up free</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-register" class="page">
+  <div style="display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 54px);padding:20px;background:var(--ink5)">
+    <div class="card" style="width:100%;max-width:380px">
+      <h2 style="font-size:22px;font-weight:800;margin-bottom:4px">Create account</h2>
+      <p style="color:var(--ink3);font-size:13px;margin-bottom:20px">Join BookEase — it's free</p>
+      <div id="reg-error" style="display:none;background:#fef0f0;border:1px solid #fcc;border-radius:8px;padding:9px 12px;font-size:12px;color:var(--red);margin-bottom:12px"></div>
+      <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="r-name" placeholder="John Doe"></div>
+      <div class="form-group"><label class="form-label">Email *</label><input class="form-input" id="r-email" type="email" placeholder="john@email.com"></div>
+      <div class="form-group"><label class="form-label">Phone *</label><input class="form-input" id="r-phone" placeholder="07XXXXXXXX"></div>
+      <div class="form-group"><label class="form-label">Password *</label><input class="form-input" id="r-pwd" type="password" placeholder="Min 6 characters"></div>
+      <div class="form-group"><label class="form-label">Confirm Password *</label><input class="form-input" id="r-pwd2" type="password" placeholder="Repeat password"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;margin-top:4px" onclick="doRegister()">Create Account</button>
+      <p style="text-align:center;font-size:12px;color:var(--ink3);margin-top:12px">Have an account? <button onclick="nav('login')" style="color:var(--green);font-weight:600;font-size:12px">Sign in</button></p>
+    </div>
+  </div>
+</div>
+
+<div id="modal-container"></div>
+
+<script>
+const SERVICES=[
+  {id:1,cat:'Healthcare',name:'General Consultation',desc:'Comprehensive health assessment with a qualified GP.',long:'Get a thorough evaluation covering symptoms, medical history, and preventive care. Our GPs provide personalized advice and referrals when needed.',dur:30,price:1500,icon:'🏥',rating:4.8,reviews:124,slots:8,color:'#3b82f6'},
+  {id:2,cat:'Healthcare',name:'Dental Checkup',desc:'Professional dental exam, cleaning and oral health consultation.',long:'Complete dental examination including X-rays, professional cleaning and cavity detection from certified dentists.',dur:45,price:2500,icon:'🦷',rating:4.9,reviews:89,slots:6,color:'#f97316'},
+  {id:3,cat:'Beauty',name:'Haircut & Styling',desc:'Expert haircut and styling with senior stylists.',long:'Transform your look with expert stylists. Includes wash, cut, blow-dry and style advice tailored to your face shape.',dur:60,price:1200,icon:'✂️',rating:4.7,reviews:203,slots:10,color:'#a855f7'},
+  {id:4,cat:'Beauty',name:'Spa & Massage',desc:'Relaxing full-body massage and spa treatment.',long:'Unwind with our signature 60-minute Swedish massage. Includes aromatherapy, hot towel treatment and complimentary herbal tea.',dur:60,price:3500,icon:'💆',rating:4.9,reviews:167,slots:4,color:'#ec4899'},
+  {id:5,cat:'Fitness',name:'Personal Training',desc:'One-on-one coaching with a certified personal trainer.',long:'Achieve your fitness goals faster with personalized workout plans, nutrition guidance and motivational coaching.',dur:60,price:2000,icon:'🏋️',rating:4.8,reviews:91,slots:5,color:'#22c55e'},
+  {id:6,cat:'Consulting',name:'Legal Consultation',desc:'Professional legal advice from experienced attorneys.',long:'Expert legal counsel on contracts, disputes, business formation and personal matters. All consultations are confidential.',dur:60,price:5000,icon:'⚖️',rating:4.6,reviews:55,slots:3,color:'#eab308'},
+];
+
+const USERS=[
+  {id:1,name:'Admin User',email:'admin@bookease.com',pwd:'admin123',role:'admin',avatar:'AU',phone:'0700000001'},
+  {id:2,name:'Alice Njeri',email:'alice@email.com',pwd:'alice123',role:'user',avatar:'AN',phone:'0712345678'},
+  {id:3,name:'Brian Omondi',email:'brian@email.com',pwd:'brian123',role:'user',avatar:'BO',phone:'0798765432'},
+];
+
+let bookings=[
+  {id:1,userId:2,svcId:3,svcName:'Haircut & Styling',customer:'Alice Njeri',email:'alice@email.com',phone:'0712345678',date:'2025-04-10',time:'10:00',status:'confirmed',notes:'',amount:1200,created:'2025-04-01'},
+  {id:2,userId:2,svcId:1,svcName:'General Consultation',customer:'Alice Njeri',email:'alice@email.com',phone:'0712345678',date:'2025-03-20',time:'09:00',status:'completed',notes:'',amount:1500,created:'2025-03-15'},
+  {id:3,userId:3,svcId:4,svcName:'Spa & Massage',customer:'Brian Omondi',email:'brian@email.com',phone:'0798765432',date:'2025-04-12',time:'14:00',status:'pending',notes:'',amount:3500,created:'2025-04-02'},
+  {id:4,userId:3,svcId:2,svcName:'Dental Checkup',customer:'Brian Omondi',email:'brian@email.com',phone:'0798765432',date:'2025-03-28',time:'11:00',status:'completed',notes:'',amount:2500,created:'2025-03-20'},
+  {id:5,userId:4,svcId:5,svcName:'Personal Training',customer:'Carol Wangari',email:'carol@email.com',phone:'0756789012',date:'2025-04-15',time:'07:00',status:'confirmed',notes:'Weight loss goal',amount:2000,created:'2025-04-05'},
+];
+let nextId=100;
+
+let currentUser=null;
+try{currentUser=JSON.parse(localStorage.getItem('be_user'))||null}catch(e){}
+
+let currentPage='home';
+let currentSvcId=null;
+let bookStep=1;
+let bookData={date:'',time:'',name:'',email:'',phone:'',notes:'',payMethod:'mpesa'};
+let calMonth=new Date().getMonth();
+let calYear=new Date().getFullYear();
+let dashTab='upcoming';
+let adminPage='dashboard';
+let lastBookingId=null;
+
+function nav(p){
+  if((p==='dashboard'||p==='book')&&!currentUser){nav('login');return}
+  if(p==='admin'&&(!currentUser||currentUser.role!=='admin')){nav('home');return}
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  const el=document.getElementById('page-'+p);
+  if(el)el.classList.add('active');
+  currentPage=p;
+  updateNav();
+  if(p==='home')renderHome();
+  if(p==='services')renderServicesPage();
+  if(p==='service-detail')renderServiceDetail();
+  if(p==='book'){bookStep=1;renderBook();}
+  if(p==='dashboard')renderDashboard();
+  if(p==='admin')renderAdminPage();
+  if(p==='confirm')renderConfirm();
+}
+
+function updateNav(){
+  ['home','services'].forEach(n=>{
+    const el=document.getElementById('nl-'+n);
+    if(el)el.classList.toggle('active',currentPage===n);
+  });
+  const dlnk=document.getElementById('nl-dashboard');
+  const alnk=document.getElementById('nl-admin');
+  if(dlnk)dlnk.style.display=currentUser?'':'none';
+  if(alnk)alnk.style.display=(currentUser&&currentUser.role==='admin')?'':'none';
+  if(dlnk)dlnk.classList.toggle('active',currentPage==='dashboard');
+  if(alnk)alnk.classList.toggle('active',currentPage==='admin');
+  const nr=document.getElementById('nav-right');
+  if(currentUser){
+    nr.innerHTML=`<div class="avatar">${currentUser.avatar}</div><span style="font-size:13px;font-weight:500;color:var(--ink2)">${currentUser.name.split(' ')[0]}</span><button class="btn btn-ghost btn-sm" onclick="doLogout()">Logout</button>`;
+  } else {
+    nr.innerHTML=`<button class="btn btn-outline btn-sm" onclick="nav('login')">Login</button><button class="btn btn-primary btn-sm" onclick="nav('register')">Sign Up</button>`;
+  }
+}
+
+function svcCard(s){
+  return`<div class="svc-card" onclick="openService(${s.id})">
+    <div class="svc-img"><div class="svc-img-fallback">${s.icon}</div><span class="svc-cat">${s.cat}</span></div>
+    <div class="svc-body">
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-desc">${s.desc}</div>
+      <div class="svc-meta">
+        <div class="svc-rating">★ <span>${s.rating}</span><span style="color:var(--ink4)"> (${s.reviews})</span></div>
+        <div>
+          <div class="svc-price">KES ${s.price.toLocaleString()}</div>
+          <div class="svc-duration">⏱ ${s.dur}min</div>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:10px" onclick="event.stopPropagation();openService(${s.id})">Book Now</button>
+    </div>
+  </div>`;
+}
+
+function renderHome(){
+  const g=document.getElementById('home-services-grid');
+  if(g)g.innerHTML=SERVICES.slice(0,3).map(svcCard).join('');
+}
+
+function renderServicesPage(){
+  const q=(document.getElementById('svc-search')||{}).value||'';
+  const fc=document.getElementById('svc-filters');
+  const cats=['All',...new Set(SERVICES.map(s=>s.cat))];
+  if(fc&&!fc.dataset.built){
+    fc.dataset.built='1';
+    fc.innerHTML=cats.map(c=>`<div class="filter-chip${c==='All'?' active':''}" data-cat="${c}" onclick="setFilter('${c}')">${c}</div>`).join('');
+  }
+  const activeChip=document.querySelector('.filter-chip.active');
+  const activeCat=activeChip?activeChip.dataset.cat:'All';
+  const filtered=SERVICES.filter(s=>(activeCat==='All'||s.cat===activeCat)&&(s.name.toLowerCase().includes(q.toLowerCase())||s.desc.toLowerCase().includes(q.toLowerCase())));
+  const g=document.getElementById('services-grid');
+  if(g)g.innerHTML=filtered.length?filtered.map(svcCard).join(''):`<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">No services found</div></div>`;
+}
+
+function setFilter(cat){
+  document.querySelectorAll('.filter-chip').forEach(c=>{c.classList.toggle('active',c.dataset.cat===cat)});
+  renderServicesPage();
+}
+
+function openService(id){
+  currentSvcId=id;
+  nav('service-detail');
+}
+
+function renderServiceDetail(){
+  const s=SERVICES.find(x=>x.id===currentSvcId);
+  if(!s)return;
+  const el=document.getElementById('svc-detail-content');
+  el.innerHTML=`
+    <div class="service-detail-hero">
+      <div style="font-size:64px">${s.icon}</div>
+      <div>
+        <span class="badge badge-confirmed" style="margin-bottom:8px">${s.cat}</span>
+        <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">${s.name}</h2>
+        <p style="color:var(--ink3);font-size:14px;line-height:1.6">${s.long}</p>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="meta-item-lbl">⏱ Duration</div><div class="meta-item-val">${s.dur} minutes</div></div>
+      <div class="meta-item"><div class="meta-item-lbl">★ Rating</div><div class="meta-item-val" style="color:var(--amber)">${s.rating} (${s.reviews} reviews)</div></div>
+      <div class="meta-item"><div class="meta-item-lbl">📋 Availability</div><div class="meta-item-val">${s.slots} slots/day</div></div>
+      <div class="meta-item"><div class="meta-item-lbl">💰 Price</div><div class="meta-item-val" style="color:var(--green)">KES ${s.price.toLocaleString()}</div></div>
+    </div>
+    ${currentUser
+      ?`<button class="btn btn-primary" style="padding:11px 28px;font-size:14px" onclick="startBook(${s.id})">Book This Service →</button>`
+      :`<button class="btn btn-primary" style="padding:11px 28px;font-size:14px" onclick="nav('login')">Login to Book</button>
+        <p style="margin-top:8px;font-size:12px;color:var(--ink3)">No account? <button onclick="nav('register')" style="color:var(--green);font-weight:600;font-size:12px">Sign up free</button></p>`
+    }`;
+}
+
+function startBook(id){
+  currentSvcId=id;
+  bookStep=1;
+  bookData={date:'',time:'',name:currentUser?.name||'',email:currentUser?.email||'',phone:currentUser?.phone||'',notes:'',payMethod:'mpesa'};
+  nav('book');
+}
+
+const SLOTS=['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00'];
+const takenSlotIndexes=[0,3,6,9,12];
+
+function renderBook(){
+  const s=SERVICES.find(x=>x.id===currentSvcId);
+  if(!s)return;
+  const stepsEl=document.getElementById('book-steps');
+  const stepDefs=[['Date & Time',1],['Your Details',2],['Payment',3]];
+  stepsEl.innerHTML=stepDefs.map(([label,n],i,arr)=>{
+    const cls=bookStep>n?'done':bookStep===n?'active':'pending';
+    return`<div class="step-item"><div class="step-circle ${cls}">${bookStep>n?'✓':n}</div><span class="step-label" style="${bookStep>=n?'color:var(--ink)':'color:var(--ink3)'}">${label}</span></div>${i<arr.length-1?`<div class="step-line ${bookStep>n?'done':''}"></div>`:''}`
+  }).join('');
+
+  const c=document.getElementById('book-content');
+  const svcBar=`<div style="background:var(--green-lt);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:20px">
+    <span style="font-size:28px">${s.icon}</span>
+    <div><div style="font-weight:700">${s.name}</div><div style="font-size:12px;color:var(--ink3)">⏱ ${s.dur}min &nbsp;·&nbsp; <span style="color:var(--green);font-weight:600">KES ${s.price.toLocaleString()}</span></div></div>
+  </div>`;
+
+  if(bookStep===1){
+    const today=new Date();
+    const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+    const firstDay=new Date(calYear,calMonth,1).getDay();
+    const mNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    let calDays='';
+    for(let i=0;i<firstDay;i++) calDays+=`<div class="cal-day cal-empty"></div>`;
+    for(let d=1;d<=daysInMonth;d++){
+      const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isPast=new Date(ds)<new Date(today.toISOString().slice(0,10));
+      const isToday=ds===today.toISOString().slice(0,10);
+      const isSel=ds===bookData.date;
+      const cls=[isPast?'cal-past':'',isToday?'cal-today':'',isSel?'cal-selected':''].join(' ');
+      calDays+=`<div class="cal-day ${cls}" onclick="${isPast?'':'selectDate(\''+ds+'\')'}">${d}</div>`;
+    }
+    const slotsHtml=bookData.date?`<div style="margin-top:20px">
+      <div style="font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:8px">Available times for ${new Date(bookData.date+'T00:00').toDateString()}</div>
+      <div class="slots-grid">${SLOTS.map((t,i)=>{
+        const taken=takenSlotIndexes.includes(i);
+        const sel=bookData.time===t;
+        return`<div class="slot${taken?' slot-taken':''} ${sel?'slot-selected':''}" onclick="${taken?'':'selectTime(\''+t+'\')'}">${t}</div>`;
+      }).join('')}</div>
+      ${bookData.time?`<div style="font-size:12px;color:var(--green);margin-top:8px">✓ Selected: ${bookData.time}</div>`:''}</div>`:'';
+    c.innerHTML=`${svcBar}
+      <div class="card" style="margin-bottom:14px">
+        <div class="cal-header">
+          <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+          <div style="font-weight:700;font-size:15px">${mNames[calMonth]} ${calYear}</div>
+          <button class="cal-nav" onclick="changeMonth(1)">›</button>
+        </div>
+        <div class="cal-grid">
+          ${['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div class="cal-dow">${d}</div>`).join('')}
+          ${calDays}
+        </div>
+        ${slotsHtml}
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px" onclick="nextBookStep()" ${!bookData.date||!bookData.time?'disabled style="opacity:.5;cursor:not-allowed"':''}>Continue →</button>`;
+  } else if(bookStep===2){
+    c.innerHTML=`${svcBar}
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-weight:700;margin-bottom:14px">Your Information</div>
+        <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="b-name" value="${bookData.name}" placeholder="John Doe"></div>
+        <div class="form-group"><label class="form-label">Email *</label><input class="form-input" id="b-email" type="email" value="${bookData.email}" placeholder="john@email.com"></div>
+        <div class="form-group"><label class="form-label">Phone *</label><input class="form-input" id="b-phone" value="${bookData.phone}" placeholder="07XXXXXXXX"></div>
+        <div class="form-group"><label class="form-label">Notes (optional)</label><textarea class="form-input" id="b-notes" placeholder="Any special requests...">${bookData.notes}</textarea></div>
+      </div>
+      <div style="background:var(--ink5);border-radius:10px;padding:12px 16px;font-size:13px;margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--ink3)">Date</span><span style="font-weight:600">${new Date(bookData.date+'T00:00').toDateString()}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--ink3)">Time</span><span style="font-weight:600">${bookData.time}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid var(--ink4);margin-top:4px;padding-top:8px"><span style="font-weight:600">Total</span><span style="font-weight:700;color:var(--green)">KES ${s.price.toLocaleString()}</span></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline" style="flex:1;justify-content:center;padding:10px" onclick="bookStep=1;renderBook()">← Back</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;padding:10px" onclick="nextBookStep()">Continue →</button>
+      </div>`;
+  } else if(bookStep===3){
+    c.innerHTML=`${svcBar}
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-weight:700;margin-bottom:14px">Payment Method</div>
+        ${[['mpesa','📱','M-Pesa','Pay via Safaricom M-Pesa'],['card','💳','Card','Visa, Mastercard, Amex'],['cash','🏢','Cash on Arrival','Pay when you arrive']].map(([val,icon,name,desc])=>`
+          <div class="payment-opt${bookData.payMethod===val?' selected':''}" onclick="selectPay('${val}')">
+            <div class="payment-opt-icon">${icon}</div>
+            <div><div class="payment-opt-name">${name}</div><div class="payment-opt-desc">${desc}</div></div>
+            ${bookData.payMethod===val?'<div class="check-circle">✓</div>':''}
+          </div>`).join('')}
+        ${bookData.payMethod==='mpesa'?`<div style="background:#e8f5ee;border:1px solid #a8dfbc;border-radius:9px;padding:10px 14px;margin-top:4px;font-size:12px"><div style="font-weight:600;color:var(--green-dk);margin-bottom:3px">M-Pesa Simulation</div><div style="color:var(--green)">An STK push will be sent to ${bookData.phone}. Enter your PIN to confirm.</div></div>`:''}
+      </div>
+      <div style="background:var(--ink5);border-radius:10px;padding:12px 16px;font-size:14px;margin-bottom:14px;display:flex;justify-content:space-between">
+        <span style="font-weight:600">Total to Pay</span><span style="font-weight:800;color:var(--green)">KES ${s.price.toLocaleString()}</span>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline" style="flex:1;justify-content:center;padding:10px" onclick="bookStep=2;renderBook()">← Back</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center;padding:10px" id="pay-btn" onclick="submitBooking()">Pay KES ${s.price.toLocaleString()}</button>
+      </div>`;
+  }
+}
+
+function changeMonth(dir){
+  calMonth+=dir;
+  if(calMonth<0){calMonth=11;calYear--;}
+  if(calMonth>11){calMonth=0;calYear++;}
+  renderBook();
+}
+function selectDate(d){bookData.date=d;bookData.time='';renderBook();}
+function selectTime(t){bookData.time=t;renderBook();}
+function selectPay(m){bookData.payMethod=m;renderBook();}
+
+function nextBookStep(){
+  if(bookStep===1){if(!bookData.date||!bookData.time)return;bookStep=2;}
+  else if(bookStep===2){
+    bookData.name=(document.getElementById('b-name')||{}).value||'';
+    bookData.email=(document.getElementById('b-email')||{}).value||'';
+    bookData.phone=(document.getElementById('b-phone')||{}).value||'';
+    bookData.notes=(document.getElementById('b-notes')||{}).value||'';
+    if(!bookData.name||!bookData.email||!bookData.phone){toast('Please fill all required fields','error');return;}
+    if(!/\S+@\S+\.\S+/.test(bookData.email)){toast('Enter a valid email','error');return;}
+    bookStep=3;
+  }
+  renderBook();
+}
+
+async function submitBooking(){
+  const btn=document.getElementById('pay-btn');
+  if(btn){btn.textContent='Processing...';btn.disabled=true;}
+  await sleep(1500);
+  const s=SERVICES.find(x=>x.id===currentSvcId);
+  const nb={id:++nextId,userId:currentUser.id,svcId:s.id,svcName:s.name,customer:bookData.name,email:bookData.email,phone:bookData.phone,date:bookData.date,time:bookData.time,status:'pending',notes:bookData.notes,amount:s.price,created:new Date().toISOString().slice(0,10)};
+  bookings.push(nb);
+  lastBookingId=nb.id;
+  toast('Booking confirmed! 🎉','success');
+  nav('confirm');
+}
+
+function renderConfirm(){
+  const b=bookings.find(x=>x.id===lastBookingId);
+  if(!b)return;
+  const el=document.getElementById('confirm-details');
+  el.innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--ink3)">Booking ID</span><span style="font-weight:700;color:var(--green);font-family:monospace">#${b.id}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--ink3)">Service</span><span style="font-weight:600">${b.svcName}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--ink3)">Date</span><span style="font-weight:600">${new Date(b.date+'T00:00').toDateString()}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--ink3)">Time</span><span style="font-weight:600">${b.time}</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="color:var(--ink3)">Status</span><span class="badge badge-pending">pending</span></div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid var(--ink4);padding-top:8px;margin-top:4px"><span style="font-weight:600">Amount</span><span style="font-weight:700;color:var(--green)">KES ${b.amount.toLocaleString()}</span></div>
+    </div>`;
+}
+
+function renderDashboard(){
+  const el=document.getElementById('dash-greeting');
+  if(el)el.textContent=`My Dashboard`;
+  const myB=bookings.filter(b=>b.userId===currentUser.id);
+  const upcoming=myB.filter(b=>['pending','confirmed'].includes(b.status)&&new Date(b.date)>=new Date(new Date().toISOString().slice(0,10)));
+  const past=myB.filter(b=>b.status==='completed'||new Date(b.date)<new Date(new Date().toISOString().slice(0,10)));
+  const statsEl=document.getElementById('dash-stats');
+  if(statsEl)statsEl.innerHTML=[['Total',myB.length,'📅'],['Upcoming',upcoming.length,'⏰'],['Completed',past.filter(b=>b.status==='completed').length,'✅']].map(([l,v,i])=>`<div class="stat-card"><div style="font-size:22px">${i}</div><div class="stat-card-val">${v}</div><div class="stat-card-lbl">${l}</div></div>`).join('');
+  renderDashBookings();
+}
+
+function setDashTab(t){
+  dashTab=t;
+  ['upcoming','past'].forEach(x=>{
+    const el=document.getElementById('tab-'+x);
+    if(el)el.classList.toggle('active',x===t);
+  });
+  renderDashBookings();
+}
+
+function renderDashBookings(){
+  const myB=bookings.filter(b=>b.userId===currentUser.id);
+  const today=new Date(new Date().toISOString().slice(0,10));
+  const list=dashTab==='upcoming'
+    ?myB.filter(b=>['pending','confirmed'].includes(b.status)&&new Date(b.date)>=today)
+    :myB.filter(b=>b.status==='completed'||new Date(b.date)<today);
+  const el=document.getElementById('dash-bookings');
+  if(!el)return;
+  if(!list.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><div class="empty-text">No ${dashTab} bookings</div>${dashTab==='upcoming'?`<button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="nav('services')">Book a Service</button>`:''}</div>`;return;}
+  el.innerHTML=list.map(b=>`
+    <div class="bk-card">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px"><div class="bk-title">${b.svcName}</div><span class="badge badge-${b.status}">${b.status}</span></div>
+        <div class="bk-meta"><span>📅 ${new Date(b.date+'T00:00').toDateString()}</span><span>⏱ ${b.time}</span><span style="color:var(--green);font-weight:600">KES ${b.amount.toLocaleString()}</span></div>
+        ${b.notes?`<div style="font-size:11px;color:var(--ink3);margin-top:4px;font-style:italic">"${b.notes}"</div>`:''}
+      </div>
+      ${['pending','confirmed'].includes(b.status)?`<button class="btn btn-danger btn-sm" onclick="cancelBooking(${b.id})">Cancel</button>`:''}
+    </div>`).join('');
+}
+
+function cancelBooking(id){
+  const b=bookings.find(x=>x.id===id);
+  if(b){b.status='cancelled';toast('Booking cancelled','info');renderDashBookings();}
+}
+
+function renderAdminPage(){
+  const pages={dashboard:renderAdminDashboard,bookings:renderAdminBookings,services:renderAdminServices,users:renderAdminUsers,analytics:renderAdminAnalytics};
+  Object.keys(pages).forEach(k=>{
+    const el=document.getElementById('sl-'+k);
+    if(el)el.classList.toggle('active',k===adminPage);
+  });
+  if(pages[adminPage])pages[adminPage]();
+}
+
+function setAdminPage(p){adminPage=p;renderAdminPage();}
+
+function renderAdminDashboard(){
+  const total=bookings.length;
+  const pending=bookings.filter(b=>b.status==='pending').length;
+  const confirmed=bookings.filter(b=>b.status==='confirmed').length;
+  const revenue=bookings.filter(b=>['confirmed','completed'].includes(b.status)).reduce((a,b)=>a+b.amount,0);
+  const recent=[...bookings].sort((a,b)=>b.id-a.id).slice(0,5);
+  document.getElementById('admin-main').innerHTML=`
+    <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">Dashboard</h2>
+    <p style="color:var(--ink3);font-size:13px;margin-bottom:20px">Platform overview</p>
+    <div class="grid4">
+      <div class="stat-card" style="border-left:4px solid var(--green)"><div class="stat-card-lbl">Total Bookings</div><div class="stat-card-val">${total}</div></div>
+      <div class="stat-card" style="border-left:4px solid #f97316"><div class="stat-card-lbl">Pending</div><div class="stat-card-val">${pending}</div></div>
+      <div class="stat-card" style="border-left:4px solid var(--blue)"><div class="stat-card-lbl">Confirmed</div><div class="stat-card-val">${confirmed}</div></div>
+      <div class="stat-card" style="border-left:4px solid #a855f7"><div class="stat-card-lbl">Revenue</div><div class="stat-card-val" style="font-size:18px">KES ${revenue.toLocaleString()}</div></div>
+    </div>
+    <div class="card">
+      <div style="font-weight:700;margin-bottom:14px">Recent Bookings</div>
+      ${recent.map(b=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--ink5)">
+        <div><div style="font-size:13px;font-weight:600">${b.customer}</div><div style="font-size:11px;color:var(--ink3)">${b.svcName} · ${b.date} ${b.time}</div></div>
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:12px;font-weight:600;color:var(--green)">KES ${b.amount.toLocaleString()}</span><span class="badge badge-${b.status}">${b.status}</span></div>
+      </div>`).join('')}
+    </div>`;
+}
+
+function renderAdminBookings(){
+  document.getElementById('admin-main').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div><h2 style="font-size:20px;font-weight:800">Manage Bookings</h2><p style="color:var(--ink3);font-size:13px">View, approve or cancel bookings</p></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Customer</th><th>Service</th><th>Date & Time</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>${bookings.map(b=>`<tr>
+          <td style="font-family:monospace;font-size:11px;color:var(--ink3)">#${b.id}</td>
+          <td><div style="font-weight:600">${b.customer}</div><div style="font-size:11px;color:var(--ink3)">${b.email}</div></td>
+          <td>${b.svcName}</td>
+          <td style="white-space:nowrap;font-size:12px">${b.date} ${b.time}</td>
+          <td style="font-weight:600;color:var(--green)">KES ${b.amount.toLocaleString()}</td>
+          <td><span class="badge badge-${b.status}">${b.status}</span></td>
+          <td><div style="display:flex;gap:4px">
+            ${b.status==='pending'?`<button class="btn btn-primary btn-sm" onclick="adminConfirm(${b.id})">Confirm</button>`:''}
+            ${['pending','confirmed'].includes(b.status)?`<button class="btn btn-danger btn-sm" onclick="adminCancel(${b.id})">Cancel</button>`:''}
+            <button class="btn btn-ghost btn-sm" onclick="adminDelete(${b.id})">🗑</button>
+          </div></td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>`;
+}
+
+function adminConfirm(id){const b=bookings.find(x=>x.id===id);if(b){b.status='confirmed';toast('Booking confirmed');renderAdminBookings();}}
+function adminCancel(id){const b=bookings.find(x=>x.id===id);if(b){b.status='cancelled';toast('Cancelled','info');renderAdminBookings();}}
+function adminDelete(id){bookings=bookings.filter(x=>x.id!==id);toast('Deleted','info');renderAdminBookings();}
+
+function renderAdminServices(){
+  document.getElementById('admin-main').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div><h2 style="font-size:20px;font-weight:800">Manage Services</h2><p style="color:var(--ink3);font-size:13px">Add, edit or remove services</p></div>
+      <button class="btn btn-primary btn-sm" onclick="openSvcModal()">+ Add Service</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">
+      ${SERVICES.map(s=>`<div class="card" style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:32px">${s.icon}</span>
+          <div style="display:flex;gap:4px">
+            <button class="btn btn-ghost btn-sm" onclick="openSvcModal(${s.id})">✏️</button>
+            <button class="btn btn-ghost btn-sm" onclick="deleteSvc(${s.id})">🗑</button>
+          </div>
+        </div>
+        <div style="font-weight:700">${s.name}</div>
+        <div style="font-size:12px;color:var(--ink3)">${s.desc}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span class="badge badge-confirmed">${s.cat}</span>
+          <span style="font-weight:700;color:var(--green)">KES ${s.price.toLocaleString()}</span>
+        </div>
+      </div>`).join('')}
+    </div>`;
+}
+
+function deleteSvc(id){const i=SERVICES.findIndex(x=>x.id===id);if(i>-1){SERVICES.splice(i,1);toast('Service removed','info');renderAdminServices();}}
+
+function openSvcModal(id){
+  const s=id?SERVICES.find(x=>x.id===id):{name:'',cat:'Healthcare',desc:'',long:'',dur:30,price:1000,icon:'🏥'};
+  const mc=document.getElementById('modal-container');
+  mc.innerHTML=`<div class="modal-bg" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-head"><div class="modal-title">${id?'Edit':'Add'} Service</div><button class="btn btn-ghost btn-sm" onclick="closeModal()">✕</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label class="form-label">Service Name *</label><input class="form-input" id="ms-name" value="${s.name}" placeholder="Service name"></div>
+        <div class="form-group"><label class="form-label">Category</label><select class="form-input" id="ms-cat">${['Healthcare','Beauty','Fitness','Consulting','Other'].map(c=>`<option${c===s.cat?' selected':''}>${c}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-label">Short Description *</label><input class="form-input" id="ms-desc" value="${s.desc}" placeholder="Brief description"></div>
+        <div class="form-group"><label class="form-label">Full Description</label><textarea class="form-input" id="ms-long">${s.long||''}</textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="form-group"><label class="form-label">Price (KES) *</label><input class="form-input" id="ms-price" type="number" value="${s.price}"></div>
+          <div class="form-group"><label class="form-label">Duration (min)</label><input class="form-input" id="ms-dur" type="number" value="${s.dur}"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Icon</label><div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${['🏥','🦷','✂️','💆','🏋️','⚖️','📚','🎯','🔧','🍕'].map(ic=>`<button onclick="document.getElementById('ms-icon').value='${ic}';document.querySelectorAll('.icon-opt').forEach(el=>el.style.background='');this.style.background='var(--green-lt)'" class="icon-opt" style="padding:6px 10px;border-radius:8px;border:1px solid var(--ink4);font-size:18px;cursor:pointer;background:${ic===s.icon?'var(--green-lt)':''};">${ic}</button>`).join('')}
+          <input type="hidden" id="ms-icon" value="${s.icon}">
+        </div></div>
+        <div style="display:flex;gap:10px;margin-top:8px">
+          <button class="btn btn-outline" style="flex:1;justify-content:center" onclick="closeModal()">Cancel</button>
+          <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="saveSvc(${id||'null'})">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function saveSvc(id){
+  const name=(document.getElementById('ms-name')||{}).value||'';
+  const desc=(document.getElementById('ms-desc')||{}).value||'';
+  const price=parseInt((document.getElementById('ms-price')||{}).value)||0;
+  if(!name||!desc||!price){toast('Fill required fields','error');return;}
+  const data={name,cat:document.getElementById('ms-cat').value,desc,long:document.getElementById('ms-long').value,price,dur:parseInt(document.getElementById('ms-dur').value)||30,icon:document.getElementById('ms-icon').value};
+  if(id){const s=SERVICES.find(x=>x.id===id);if(s)Object.assign(s,data);}
+  else{SERVICES.push({...data,id:Date.now(),rating:5,reviews:0,slots:8,color:'#359669'});}
+  closeModal();toast(id?'Service updated':'Service added');renderAdminServices();
+}
+
+function renderAdminUsers(){
+  document.getElementById('admin-main').innerHTML=`
+    <h2 style="font-size:20px;font-weight:800;margin-bottom:16px">Users</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Avatar</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th></tr></thead>
+      <tbody>${USERS.map(u=>`<tr>
+        <td><div class="avatar">${u.avatar}</div></td>
+        <td style="font-weight:600">${u.name}</td>
+        <td style="color:var(--ink3)">${u.email}</td>
+        <td style="color:var(--ink3)">${u.phone}</td>
+        <td><span class="badge" style="${u.role==='admin'?'background:#f3e8ff;color:#7e22ce':'background:var(--green-lt);color:var(--green-dk)'}">${u.role}</span></td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+}
+
+function renderAdminAnalytics(){
+  const statuses=['pending','confirmed','completed','cancelled'];
+  const totalRev=bookings.filter(b=>['confirmed','completed'].includes(b.status)).reduce((a,b)=>a+b.amount,0);
+  const svcCounts=SERVICES.map(s=>({name:s.name,count:bookings.filter(b=>b.svcId===s.id).length})).sort((a,b)=>b.count-a.count);
+  const maxCount=Math.max(...svcCounts.map(s=>s.count),1);
+  document.getElementById('admin-main').innerHTML=`
+    <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">Analytics</h2>
+    <p style="color:var(--ink3);font-size:13px;margin-bottom:20px">Platform insights</p>
+    <div class="grid4" style="margin-bottom:24px">
+      ${[['Total Bookings',bookings.length],['Revenue',`KES ${totalRev.toLocaleString()}`],['Services',SERVICES.length],['Users',USERS.length]].map(([l,v])=>`<div class="stat-card"><div class="stat-card-lbl">${l}</div><div class="stat-card-val" style="font-size:20px">${v}</div></div>`).join('')}
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:14px">Bookings by Status</div>
+        ${statuses.map(s=>{
+          const count=bookings.filter(b=>b.status===s).length;
+          const pct=bookings.length?Math.round(count/bookings.length*100):0;
+          const colors={pending:'#f97316',confirmed:' var(--green)',completed:' var(--blue)',cancelled:' var(--red)'};
+          return`<div class="bar-row"><div class="bar-label" style="text-transform:capitalize">${s}</div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${colors[s]}"></div></div><div class="bar-count">${count}</div></div>`;
+        }).join('')}
+      </div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:14px">Popular Services</div>
+        ${svcCounts.map(({name,count})=>`<div class="bar-row"><div class="bar-label">${name}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(count/maxCount*100)}%"></div></div><div class="bar-count">${count}</div></div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function closeModal(){document.getElementById('modal-container').innerHTML='';}
+
+function doLogin(){
+  const email=(document.getElementById('l-email')||{}).value||'';
+  const pwd=(document.getElementById('l-pwd')||{}).value||'';
+  const u=USERS.find(x=>x.email===email&&x.pwd===pwd);
+  const errEl=document.getElementById('login-error');
+  if(!u){if(errEl){errEl.style.display='block';errEl.textContent='Invalid email or password';}return;}
+  const {pwd:_,...safe}=u;
+  currentUser=safe;
+  try{localStorage.setItem('be_user',JSON.stringify(safe));}catch(e){}
+  toast(`Welcome back, ${safe.name.split(' ')[0]}! 👋`,'success');
+  nav(safe.role==='admin'?'admin':'dashboard');
+}
+
+function fillLogin(e,p){
+  const em=document.getElementById('l-email');const pw=document.getElementById('l-pwd');
+  if(em)em.value=e;if(pw)pw.value=p;
+}
+
+function doRegister(){
+  const name=(document.getElementById('r-name')||{}).value||'';
+  const email=(document.getElementById('r-email')||{}).value||'';
+  const phone=(document.getElementById('r-phone')||{}).value||'';
+  const pwd=(document.getElementById('r-pwd')||{}).value||'';
+  const pwd2=(document.getElementById('r-pwd2')||{}).value||'';
+  const errEl=document.getElementById('reg-error');
+  if(!name||!email||!phone||!pwd){if(errEl){errEl.style.display='block';errEl.textContent='Please fill all required fields.';}return;}
+  if(!/\S+@\S+\.\S+/.test(email)){if(errEl){errEl.style.display='block';errEl.textContent='Enter a valid email.';}return;}
+  if(pwd.length<6){if(errEl){errEl.style.display='block';errEl.textContent='Password must be at least 6 characters.';}return;}
+  if(pwd!==pwd2){if(errEl){errEl.style.display='block';errEl.textContent='Passwords do not match.';}return;}
+  if(USERS.find(u=>u.email===email)){if(errEl){errEl.style.display='block';errEl.textContent='Email already registered.';}return;}
+  const initials=name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const nu={id:USERS.length+10,name,email,pwd,phone,role:'user',avatar:initials};
+  USERS.push(nu);
+  const {pwd:_,...safe}=nu;
+  currentUser=safe;
+  try{localStorage.setItem('be_user',JSON.stringify(safe));}catch(e){}
+  toast(`Account created! Welcome, ${safe.name.split(' ')[0]}! 🎉`,'success');
+  nav('dashboard');
+}
+
+function doLogout(){
+  currentUser=null;
+  try{localStorage.removeItem('be_user');}catch(e){}
+  toast('Logged out','info');
+  nav('home');
+}
+
+function toast(msg,type='success'){
+  const c=document.getElementById('toast-container');
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  const icons={success:'✓',error:'✕',info:'ℹ'};
+  el.innerHTML=`<span>${icons[type]||'✓'}</span><span>${msg}</span>`;
+  c.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .3s';el.style.opacity='0';setTimeout(()=>el.remove(),300);},3500);
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+updateNav();
+renderHome();
+if(currentUser){
+  if(currentUser.role==='admin'){document.getElementById('nl-admin').style.display='';}
+  document.getElementById('nl-dashboard').style.display='';
+}
+</script>
